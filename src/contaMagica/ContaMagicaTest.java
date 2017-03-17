@@ -3,8 +3,6 @@
  */
 package contaMagica;
 
-import static org.junit.Assert.*;
-
 import java.math.BigDecimal;
 
 import org.junit.Assert;
@@ -20,7 +18,7 @@ public class ContaMagicaTest {
 	private ContaMagica conta;
 	
 	@Before
-	private void setup(){
+	public void setup(){
 		conta = new ContaMagica("Vinicius' Acc");
 	}
 	
@@ -72,6 +70,6 @@ public class ContaMagicaTest {
 	@Test
 	public void testDepositoFalha() throws Exception{
 		conta.deposito(new BigDecimal(-1000.0));
-		Assert.fail();
+		Assert.assertEquals(new BigDecimal(0), conta.getSaldo());
 	}
 }
