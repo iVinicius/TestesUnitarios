@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 public class ContaMagica implements IContaMagica {
 	
 	private String nome;
+	
+	private Categorias status;
+	
+	private BigDecimal saldo;
 
 	public ContaMagica(String nome){
 		this.nome = nome;
@@ -19,31 +23,32 @@ public class ContaMagica implements IContaMagica {
 	
 	@Override
 	public String getNomeCliente() {
-		// TODO Auto-generated method stub
-		return null;
+		return nome;
 	}
 
 	@Override
 	public BigDecimal getSaldo() {
-		// TODO Auto-generated method stub
-		return null;
+		return saldo;
 	}
 
 	@Override
 	public Categorias getStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		return status;
 	}
 
 	@Override
-	public void deposito(BigDecimal valor) {
-		// TODO Auto-generated method stub
-
+	public void deposito(BigDecimal valor){
+		if(valor.longValueExact() < 0){
+			return;
+		}
+		saldo.add(valor);
 	}
 
 	@Override
 	public void retirada(BigDecimal valor) {
-		// TODO Auto-generated method stub
-
+		if(valor.longValueExact() > saldo.longValueExact() || valor.longValueExact() < 0){
+			return;
+		}
+		saldo.subtract(valor);
 	}
 }
