@@ -72,4 +72,11 @@ public class ContaMagicaTest {
 		conta.deposito(new BigDecimal(-1000.0));
 		Assert.assertEquals(new BigDecimal(0), conta.getSaldo());
 	}
+	
+	@Test
+	public void testPerdeSomenteUmLevelDeStatus(){
+		conta.deposito(new BigDecimal(200000.0));
+		conta.retirada(new BigDecimal(190000.0));
+		Assert.assertEquals(Categorias.GOLD, conta.getStatus());
+	}
 }

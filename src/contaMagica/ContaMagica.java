@@ -46,7 +46,7 @@ public class ContaMagica implements IContaMagica {
 		}
 		saldo = saldo.add(valor.multiply(this.status.getBonus(), new MathContext(4)));
 		
-		this.statusCheck();
+		this.statusCheck(false);
 	}
 
 	@Override
@@ -54,18 +54,36 @@ public class ContaMagica implements IContaMagica {
 		if(valor.longValue() > saldo.longValue() || valor.longValue() < 0){
 			return;
 		}
-		saldo.subtract(valor);
+		saldo = saldo.subtract(valor);
 		
-		this.statusCheck();
+		this.statusCheck(true);
 	}
 	
-	private void statusCheck(){
+	private void statusCheck(boolean isRetirada){
+		String catAux = status.getStatus();
 		if(saldo.longValue() < 50000){
 			status = Categorias.SILVER;
 		} else if (saldo.longValue() < 200000){
 			status = Categorias.GOLD;
 		} else{
 			status = Categorias.PLATINUM;
-		}			
-	}	
+		}	
+		if(isRetirada && this.isCategoriaDiff(catAux, status.getStatus())){
+			this.decreaseStatus(catAux);
+		}
+	}
+	
+	private boolean isCategoriaDiff(String oldCat, String newCat){
+		return newCat.equals(oldCat) ? false : true;
+	}
+	
+	private void decreaseStatus(String oldCat){
+		if(oldCat.equals(Categorias.SILVER.getStatus())){
+			return;
+		} else if(oldCat.equals(Categorias.GOLD.getStatus())){
+			status = Categorias.SILVER;
+		} else if(oldCat.equals(Categorias.PLATINUM.getStatus())){
+			status = Categorias.GOLD;
+		}
+	}
 }
